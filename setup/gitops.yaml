@@ -1,0 +1,23 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: demo-gitops
+  namespace: default
+spec:
+  interval: 30s
+  url: https://github.com/frewilhelm/ocm-controller-demo-gitops
+  ref:
+    branch: main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: demo-gitops
+spec:
+  targetNamespace: default
+  interval: 30s
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: demo-gitops
+  path: "kustomize"
